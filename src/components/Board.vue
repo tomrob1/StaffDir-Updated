@@ -1,0 +1,187 @@
+<template>
+    <div class="container-fluid">
+
+        <div class="topbuttons">
+            <ul>
+                <button class="buildingchoice">Ashton</button>
+                <button class="buildingchoice">George Holt</button>
+            </ul>
+        </div>
+            <div class="row">
+                <div class="col-3">
+                    <p>Ground Floor</p>
+                    <table id="staff">
+                        <tr>
+                            <th>Name</th>
+                            <th>Info</th>
+                            <th>View Office</th>
+                        </tr>
+                        <tr v-for="(staff) in groundFloor">
+                            <td>{{staff.FirstNames}} {{staff.Surname}}</td>
+                            <td>Room: {{staff.RoomNumber}} <br> {{staff.Email}} {{staff.TelephoneNumber}} <br> 0{{staff.TelephoneNumber}}</td>
+                            <td><button class="viewoffice" v-on:click="viewOffice(staff.QRCode_ID)">View Office</button></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-3">
+                    <p>First Floor</p>
+                    <table id="staff">
+                        <tr>
+                            <th>Name</th>
+                            <th>Info</th>
+                            <th>Office</th>
+                        </tr>
+                        <tr v-for="(staff) in firstFloor">
+                            <td>{{staff.FirstNames}} {{staff.Surname}}</td>
+                            <td>Room: {{staff.RoomNumber}} <br> {{staff.Email}} <br> 0{{staff.TelephoneNumber}} </td>
+                            <td><button class="viewoffice" v-on:click="viewOffice(staff.QRCode_ID)">View Office</button></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-3">
+                    <p>Second Floor</p>
+                    <table id="staff">
+                        <tr>
+                            <th>Name</th>
+                            <th>Info</th>
+                            <th>Office</th>
+                        </tr>
+                        <tr v-for="(staff) in secondFloor">
+                            <td>{{staff.FirstNames}} {{staff.Surname}}</td>
+                            <td>Room: {{staff.RoomNumber}} <br> {{staff.Email}} <br> 0{{staff.TelephoneNumber}}</td>
+                            <td><button class="viewoffice" v-on:click="viewOffice(staff.QRCode_ID)">View Office</button></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-3">
+                    <p>Third Floor</p>
+                    <table id="staff">
+                        <tr>
+                            <th>Name</th>
+                            <th>Info</th>
+                            <th>OFfice</th>
+                        </tr>
+                        <tr v-for="(staff) in thirdFloor">
+                            <td>{{staff.FirstNames}} {{staff.Surname}}</td>
+                            <td>Room: {{staff.RoomNumber}} <br> {{staff.Email}} <br> 0{{staff.TelephoneNumber}}</td>
+                            <td><button class="viewoffice" v-on:click="viewOffice(staff.QRCode_ID)">View Office</button></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+    <div class="LightBox"> 
+        <LightBox :images="images" :showLightBox="false" ref="lightbox"></LightBox>
+    </div>
+    </div>
+</template>
+
+<script>
+import axios from 'axios'
+//LightBox
+import LightBox from 'vue-image-lightbox'
+require('vue-image-lightbox/dist/vue-image-lightbox.min.css')
+
+export default {
+    data(){
+        return{
+            staffInfo: [],
+            images:
+            [
+                {
+                    src: 'null'
+                }
+            ] 
+        }
+    },
+    components:{
+        LightBox
+    },
+    methods:{
+        viewOffice:function(result){
+            //Take OfficeImageFileName of Row, change src then load img
+            console.log(result)
+            this.images[0].src = 'https://cgi.csc.liv.ac.uk/~tar/officephotos/'+result+'.png'
+            this.$refs.lightbox.showImage(0)
+        }
+    },
+
+    mounted:function(){
+        var url = "https://10.50.8.1:5000/board"
+        axios.get(url)
+        .then(response => {
+            console.log(response.data.data)
+            this.staffInfo = response.data.data
+        })
+    },
+
+    computed: {
+        //filter staff according to room number
+        groundFloor() {
+            return this.staffInfo.filter(staffInfo => {
+                return staffInfo.RoomNumber.charAt(0) === 'G'
+            })
+        },
+        firstFloor() {
+            return this.staffInfo.filter(staffInfo => {
+                return staffInfo.RoomNumber.charAt(0) == '1'
+            })
+        },
+        secondFloor() {
+            return this.staffInfo.filter(staffInfo => {
+                return staffInfo.RoomNumber.charAt(0) == '2'
+            })
+        },
+        thirdFloor() {
+            return this.staffInfo.filter(staffInfo => {
+                return staffInfo.RoomNumber.charAt(0) == '3'
+            })
+        }
+    }
+}
+</script>
+
+<style>
+.buildingchoice{
+    background-color: lightgreen;
+    width: 10%;
+    margin-top: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+    border: none;
+    font-size: 14px;
+    color: #666;
+    height: 50px;
+}
+
+.viewoffice{
+    background-color: lightgreen;
+    border: none;
+    width: 100%;
+    border: none;
+    font-size: 10px;
+    color: #666;
+    height: 35px;
+    border: 1px solid grey;
+}
+#staff {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width:100%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 10px;
+}
+
+#staff td, #staff th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+  font-size: 12px;
+}
+
+#staff th {
+  text-align: left;
+  background-color: lightblue;
+  color: white;
+}
+</style>
