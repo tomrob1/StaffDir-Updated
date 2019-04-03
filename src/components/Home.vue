@@ -4,6 +4,7 @@
   <br>
   <div class="homebtn"><router-link to="/search" tag="button">Search Staff</router-link></div>
   <div class="homebtn"><router-link to="/ashtonmap" tag="button">Map</router-link></div>
+  <div class="homebtn"><router-link to="/ashtonboard" tag="button">Name Board</router-link></div>
   <br>
   <br>
 </div>

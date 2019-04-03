@@ -11,7 +11,8 @@ import SearchResult from '@/components/SearchResult'
 import AshtonMap from '@/components/AshtonMap'
 import HoltMap from '@/components/HoltMap'
 import Test from '@/components/Test'
-import Board from '@/components/Board'
+import AshtonBoard from '@/components/AshtonBoard'
+import HoltBoard from '@/components/HoltBoard'
 
 Vue.use(Router)
 Vue.use(BootstrapVue)
@@ -48,9 +49,14 @@ export default new Router({
       component: Test
     },
     {
-      path: '/board',
-      name: 'board',
-      component: Board
+      path: '/ashtonboard',
+      name: 'ashtonboard',
+      component: AshtonBoard
+    },
+    {
+      path: '/holtboard',
+      name: 'holtboard',
+      component: HoltBoard
     }
   ]
 })

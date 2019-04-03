@@ -12,9 +12,9 @@
         <!--Floor Buttons -->
         <div class="col-1">
             <ul>
-                <button class="floorchoice" v-on:click="changeImage('https://cgi.csc.liv.ac.uk/~tar/test/officephotos/231_0.png','#image-map_0')">Ground Floor</button>
-                <button class="floorchoice" v-on:click="changeImage('https://cgi.csc.liv.ac.uk/~tar/test/officephotos/231_1.png','#image-map_1')">First Floor</button>
-                <button class="floorchoice" v-on:click="changeImage('https://cgi.csc.liv.ac.uk/~tar/test/officephotos/231_2.png','#image-map_2')">Second Floor</button>
+                <button class="floorchoice" v-on:click="changeImage('https://cgi.csc.liv.ac.uk/~tar/officephotos/231_0.png','#image-map_0')">Ground Floor</button>
+                <button class="floorchoice" v-on:click="changeImage('https://cgi.csc.liv.ac.uk/~tar/officephotos/231_1.png','#image-map_1')">First Floor</button>
+                <button class="floorchoice" v-on:click="changeImage('https://cgi.csc.liv.ac.uk/~tar/officephotos/231_2.png','#image-map_2')">Second Floor</button>
             </ul>
         </div>
         <!--Map Section -->

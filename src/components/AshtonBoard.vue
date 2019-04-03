@@ -3,8 +3,8 @@
 
         <div class="topbuttons">
             <ul>
-                <button class="buildingchoice">Ashton</button>
-                <button class="buildingchoice">George Holt</button>
+                <button class="buildingchoice" v-on:click="goTo('AshtonBoard')">Ashton</button>
+                <button class="buildingchoice" v-on:click="goTo('HoltBoard')">George Holt</button>
             </ul>
         </div>
             <div class="row">
@@ -102,7 +102,10 @@ export default {
             console.log(result)
             this.images[0].src = 'https://cgi.csc.liv.ac.uk/~tar/officephotos/'+result+'.png'
             this.$refs.lightbox.showImage(0)
-        }
+        },
+        goTo:function(path){
+            this.$router.push(path)
+        }        
     },
 
     mounted:function(){
@@ -118,22 +121,22 @@ export default {
         //filter staff according to room number
         groundFloor() {
             return this.staffInfo.filter(staffInfo => {
-                return staffInfo.RoomNumber.charAt(0) === 'G'
+                return staffInfo.RoomNumber.charAt(0) === 'G' & staffInfo.Building_ID == '422'
             })
         },
         firstFloor() {
             return this.staffInfo.filter(staffInfo => {
-                return staffInfo.RoomNumber.charAt(0) == '1'
+                return staffInfo.RoomNumber.charAt(0) == '1' & staffInfo.Building_ID == '422'
             })
         },
         secondFloor() {
             return this.staffInfo.filter(staffInfo => {
-                return staffInfo.RoomNumber.charAt(0) == '2'
+                return staffInfo.RoomNumber.charAt(0) == '2' & staffInfo.Building_ID == '422'
             })
         },
         thirdFloor() {
             return this.staffInfo.filter(staffInfo => {
-                return staffInfo.RoomNumber.charAt(0) == '3'
+                return staffInfo.RoomNumber.charAt(0) == '3' & staffInfo.Building_ID == '422'
             })
         }
     }

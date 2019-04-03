@@ -12,10 +12,10 @@
         <!--Floor Buttons -->
         <div class="col-1">
             <ul>
-                <button class="floorchoice" v-on:click="changeImage('https://cgi.csc.liv.ac.uk/~tar/test/officephotos/422_0.png','#image-map_0')">Ground Floor</button>
-                <button class="floorchoice" v-on:click="changeImage('https://cgi.csc.liv.ac.uk/~tar/test/officephotos/422_1.png','#image-map_1')">First Floor</button>
-                <button class="floorchoice" v-on:click="changeImage('https://cgi.csc.liv.ac.uk/~tar/test/officephotos/422_2.png','#image-map_2')">Second Floor</button>
-                <button class="floorchoice" v-on:click="changeImage('https://cgi.csc.liv.ac.uk/~tar/test/officephotos/422_3.png','#image-map_3')">Third Floor</button>
+                <button class="floorchoice" v-on:click="changeImage('https://cgi.csc.liv.ac.uk/~tar/officephotos/422_0.png','#image-map_0')">Ground Floor</button>
+                <button class="floorchoice" v-on:click="changeImage('https://cgi.csc.liv.ac.uk/~tar/officephotos/422_1.png','#image-map_1')">First Floor</button>
+                <button class="floorchoice" v-on:click="changeImage('https://cgi.csc.liv.ac.uk/~tar/officephotos/422_2.png','#image-map_2')">Second Floor</button>
+                <button class="floorchoice" v-on:click="changeImage('https://cgi.csc.liv.ac.uk/~tar/officephotos/422_3.png','#image-map_3')">Third Floor</button>
             </ul>
         </div> 
         <!--Map Section -->
