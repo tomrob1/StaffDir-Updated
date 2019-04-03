@@ -31,6 +31,7 @@
                 <area target="" alt="4227016" title="Office" href="#" coords="177,292,230,421" shape="rect">    
                 <area target="" alt="4227015" title="Office" href="#" coords="233,328,305,444" shape="rect">    
                 <area target="" alt="4227010" title="Student Office" href="#" coords="500,291,587,450" shape="rect">
+                <area target="" alt="4227023" title="Office" href="#" coords="424,195,359,78" shape="rect">
             </map>
             <map name="image-map_1">  
                 <!--1st Floor -->  

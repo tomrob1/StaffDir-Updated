@@ -60,7 +60,7 @@
                         <p class="card-text">{{roomInfo.Email}}</p>
                     </div>
                 </tr>
-            </div>         
+            </div>       
         </div>
     </div>
 </div>
@@ -157,6 +157,9 @@ ul{
   margin: auto;
   text-align: center;
   background-color: lightblue;
+}
+.card-header{
+    background-color: lightgreen;
 }
 .viewroom{
     background-color: lightgreen;

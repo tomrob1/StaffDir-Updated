@@ -70,8 +70,34 @@ Error Message : chunk-vendors.65bbc9f9.js:69 GET https://10.50.8.1:5000/namesear
 //Name Search function
 app.get('/namesearch', (req,res)=> {
     var FullName = req.query.FullName
-    const NAMESEARCH = "SELECT Staff.FirstNames, Staff.Surname, Staff.UsernameMWS, Staff.UsernameCS, Staff.QRCode_ID, Staff.Email, Staff.TelephoneNumber, JobTitle.JobName, Departments.Department, CONCAT(Staff.FirstNames, ' ',Staff.Surname) AS FullName FROM Staff INNER JOIN JobTitle on Staff.JobTitle_ID = JobTitle.JobTitle_ID INNER JOIN Departments ON Staff.Dept_ID = Departments.Dept_ID WHERE CONCAT(Staff.FirstNames, ' ',Staff.Surname) LIKE CONCAT('%',?,'%')"
+    const NAMESEARCH = "SELECT Staff.FirstNames, Staff.Surname, Staff.UsernameMWS, Staff.UsernameCS, Staff.QRCode_ID, Staff.Email, Staff.TelephoneNumber, JobTitle.JobName, Departments.Department, SpaceRef.RoomNumber, CONCAT(Staff.FirstNames, ' ',Staff.Surname)\
+    AS FullName \
+    FROM Staff \
+    LEFT JOIN JobTitle on Staff.JobTitle_ID = JobTitle.JobTitle_ID \
+    INNER JOIN Departments ON Staff.Dept_ID = Departments.Dept_ID \
+    INNER JOIN SpaceRef ON Staff.QRCode_ID = SpaceRef.QRCode_ID\
+    WHERE CONCAT(Staff.FirstNames, ' ',Staff.Surname) LIKE CONCAT('%',?,'%') \
+    ORDER BY Staff.Surname"
     connection.query(NAMESEARCH,[FullName],(error,results)=>{
+        if(error){
+            return res.send(error)
+        }
+        else{
+            return res.json({
+                data: results
+            })
+        }
+    })
+})
+
+app.get('/namesearchtest', (req,res) => {
+    var FullName = req.query.FullName
+    const NAMESEARCHTEST = "SELECT Staff.FirstNames, Staff.Surname,Staff.UsernameMWS, Staff.UsernameCS, Staff.QRCode_ID, Staff.Email, Staff.TelephoneNumber,JobTitle.JobName, CONCAT(Staff.FirstNames, ' ', Staff.Surname) \
+    AS FullName \
+    From Staff \
+    LEFT JOIN JobTitle on Staff.JobTitle_ID = JobTitle.JobTitle_ID \
+    WHERE CONCAT(Staff.FirstNames, ' ',Staff.Surname) LIKE CONCAT('%',?,'%')"
+    connection.query(NAMESEARCHTEST,[FullName],(error,results)=>{
         if(error){
             return res.send(error)
         }
@@ -86,7 +112,11 @@ app.get('/namesearch', (req,res)=> {
 //Map function
 app.get('/map',(req,res)=> {
     var QRCodeID = req.query.QRCodeID
-    const MAP ="SELECT Staff.FirstNames, Staff.Surname, Staff.TelephoneNumber, Staff.Email, SpaceRef.RoomNumber, SpaceRef.CommonName, RoomType.RoomType FROM Staff INNER JOIN SpaceRef ON Staff.QRCode_ID = SpaceRef.QRCode_ID  INNER JOIN RoomType ON SpaceRef.RoomType_ID = RoomType.RoomType_ID where Staff.QRCode_ID = ?"
+    const MAP ="SELECT Staff.FirstNames, Staff.Surname, Staff.TelephoneNumber, Staff.Email, SpaceRef.RoomNumber, SpaceRef.CommonName, RoomType.RoomType \
+    FROM Staff \
+    INNER JOIN SpaceRef ON Staff.QRCode_ID = SpaceRef.QRCode_ID  \
+    INNER JOIN RoomType ON SpaceRef.RoomType_ID = RoomType.RoomType_ID \
+    WHERE Staff.QRCode_ID = ?"
     connection.query(MAP,[QRCodeID],(error,results)=>{
         if(error){
             return res.send(error)
@@ -101,7 +131,9 @@ app.get('/map',(req,res)=> {
 
 //Board function
 app.get('/board', (req,res)=>{
-    const BOARD = "SELECT Staff.FirstNames, Staff.Surname, Staff.TelephoneNumber, Staff.Email, SpaceRef.RoomNumber, Staff.QRCode_ID, SpaceRef.Building_ID FROM Staff INNER JOIN SpaceRef on Staff.QRCode_ID = SpaceRef.QRCode_ID"
+    const BOARD = "SELECT Staff.FirstNames, Staff.Surname, Staff.TelephoneNumber, Staff.Email, SpaceRef.RoomNumber, Staff.QRCode_ID, SpaceRef.Building_ID \
+    FROM Staff \
+    INNER JOIN SpaceRef on Staff.QRCode_ID = SpaceRef.QRCode_ID"
     connection.query(BOARD,(error,results)=>{
         if(error){
             return res.send(error)
