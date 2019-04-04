@@ -18,7 +18,7 @@
                         </tr>
                         <tr v-for="(staff) in groundFloor">
                             <td>{{staff.FirstNames}} {{staff.Surname}}</td>
-                            <td>Room: {{staff.RoomNumber}} <br> {{staff.Email}} {{staff.TelephoneNumber}} <br> 0{{staff.TelephoneNumber}}</td>
+                            <td>Room: {{staff.RoomNumber}} <br> {{staff.Email}}<br> 0{{staff.TelephoneNumber}}</td>
                             <td><button class="viewoffice" v-on:click="viewOffice(staff.QRCode_ID)">View Office</button></td>
                         </tr>
                     </table>
