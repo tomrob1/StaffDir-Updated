@@ -98,7 +98,7 @@
                     <div class="card-header">{{roomInfo.FirstNames}} {{roomInfo.Surname}}</div>
                     <div class="card-body">
                         <h5 class="card-title">Room No: {{roomInfo.RoomNumber}}</h5>
-                        <p class="card-text">Telephone No: {{roomInfo.TelephoneNumber}}</p>
+                        <p class="card-text">Telephone No:0{{roomInfo.TelephoneNumber}}</p>
                         <p class="card-text">{{roomInfo.Email}}</p>
                     </div>
                 </tr>
