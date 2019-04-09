@@ -21,6 +21,11 @@
                             <td>Room: {{staff.RoomNumber}} <br> {{staff.Email}} <br> 0{{staff.TelephoneNumber}}</td>
                             <td><button class="viewoffice" v-on:click="viewOffice(staff.QRCode_ID)">View Office</button></td>
                         </tr>
+                        <tr v-for="(room) in groundFloorRoom">
+                            <td>{{room.CommonName}}</td>
+                            <td>Room: {{room.RoomNumber}}</td>
+                            <td><button class="viewoffice" v-on:click="viewOffice(room.QRCode_ID)">View</button></td>
+                        </tr>
                     </table>
                 </div>
                 <div class="col-3">
@@ -35,6 +40,11 @@
                             <td>{{staff.FirstNames}} {{staff.Surname}}</td>
                             <td>Room: {{staff.RoomNumber}} <br> {{staff.Email}} <br> 0{{staff.TelephoneNumber}} </td>
                             <td><button class="viewoffice" v-on:click="viewOffice(staff.QRCode_ID)">View Office</button></td>
+                        </tr>
+                        <tr v-for="(room) in firstFloorRoom">
+                            <td>{{room.CommonName}}</td>
+                            <td>Room: {{room.RoomNumber}}</td>
+                            <td><button class="viewoffice" v-on:click="viewOffice(room.QRCode_ID)">View</button></td>
                         </tr>
                     </table>
                 </div>
@@ -51,23 +61,14 @@
                             <td>Room: {{staff.RoomNumber}} <br> {{staff.Email}} <br> 0{{staff.TelephoneNumber}}</td>
                             <td><button class="viewoffice" v-on:click="viewOffice(staff.QRCode_ID)">View Office</button></td>
                         </tr>
-                    </table>
-                </div>
-                <div class="col-3">
-                    <p>Third Floor</p>
-                    <table id="staff">
-                        <tr>
-                            <th>Name</th>
-                            <th>Info</th>
-                            <th>OFfice</th>
-                        </tr>
-                        <tr v-for="(staff) in thirdFloor">
-                            <td>{{staff.FirstNames}} {{staff.Surname}}</td>
-                            <td>Room: {{staff.RoomNumber}} <br> {{staff.Email}} <br> 0{{staff.TelephoneNumber}}</td>
-                            <td><button class="viewoffice" v-on:click="viewOffice(staff.QRCode_ID)">View Office</button></td>
+                        <tr v-for="(room) in secondFloorRoom">
+                            <td>{{room.CommonName}}</td>
+                            <td>Room: {{room.RoomNumber}}</td>
+                            <td><button class="viewoffice" v-on:click="viewOffice(room.QRCode_ID)">View</button></td>
                         </tr>
                     </table>
                 </div>
+                <div class="col-3"></div>
             </div>
     <div class="LightBox"> 
         <LightBox :images="images" :showLightBox="false" ref="lightbox"></LightBox>
@@ -85,6 +86,7 @@ export default {
     data(){
         return{
             staffInfo: [],
+            roomInfo: [],
             images:
             [
                 {
@@ -109,11 +111,19 @@ export default {
     },
 
     mounted:function(){
+        //Staff
         var url = "https://10.50.8.1:5000/board"
         axios.get(url)
         .then(response => {
             console.log(response.data.data)
             this.staffInfo = response.data.data
+        })
+        //Rooms
+        var roomurl = "https://10.50.8.1:5000/boardtest"
+        axios.get(roomurl)
+        .then(response => {
+            console.log(response.data.data)
+            this.roomInfo = response.data.data
         })
     },
 
@@ -138,7 +148,29 @@ export default {
             return this.staffInfo.filter(staffInfo => {
                 return staffInfo.RoomNumber.charAt(0) == '3' & staffInfo.Building_ID == '231'
             })
-        }
+        },
+
+        //Filter ROOM
+        groundFloorRoom() {
+            return this.roomInfo.filter(roomInfo => {
+                return roomInfo.RoomNumber.charAt(0) === 'G' & roomInfo.Building_ID == '231'
+            })
+        },
+        firstFloorRoom() {
+            return this.roomInfo.filter(roomInfo => {
+                return roomInfo.RoomNumber.charAt(0) === '1' & roomInfo.Building_ID == '231'
+            })
+        },
+        secondFloorRoom() {
+            return this.roomInfo.filter(roomInfo => {
+                return roomInfo.RoomNumber.charAt(0) === '2' & roomInfo.Building_ID == '231'
+            })
+        },
+        thirdFloorRoom() {
+            return this.roomInfo.filter(roomInfo => {
+                return roomInfo.RoomNumber.charAt(0) === '3' & roomInfo.Building_ID == '231'
+            })
+        }  
     }
 }
 </script>

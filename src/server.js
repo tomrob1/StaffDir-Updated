@@ -3,6 +3,7 @@
 *   ---------------------------------------------
 */
 var express = require('express')
+var helmet = require('helmet')
 var cors = require('cors')
 var mysql = require('mysql')
 var serveStatic = require ('serve-static')
@@ -11,8 +12,10 @@ var fs = require('fs')
 var path = require ('path')
 var redirectToHTTPS = require('express-http-to-https').redirectToHTTPS
 
+
 let app = express()
 app.use(cors())
+app.use(helmet())
 app.use(redirectToHTTPS())
 
 
@@ -42,7 +45,7 @@ connection.connect(function(error){
     console.log('Connected to the MySQL Server')
 })
 
-
+//Certificate
 var key = fs.readFileSync(__dirname + '/certs/selfsigned.key')
 var cert = fs.readFileSync(__dirname + '/certs/selfsigned.crt')
 var options = {
@@ -58,6 +61,7 @@ httpsServer.listen(5000)
 //Load correct files when hosted on server
 //app.use(serveStatic(path.join(__dirname,'/static')))
 //app.use(express.static('static'))
+
 /*  ---------------------------------------------
 *   ---------------Endpoints---------------------
 *   ---------------------------------------------
@@ -92,7 +96,7 @@ app.get('/namesearch', (req,res)=> {
 
 app.get('/namesearchtest', (req,res) => {
     var FullName = req.query.FullName
-    const NAMESEARCHTEST = "SELECT Staff.FirstNames, Staff.Surname,Staff.UsernameMWS, Staff.UsernameCS, Staff.QRCode_ID, Staff.Email, Staff.TelephoneNumber,JobTitle.JobName, CONCAT(Staff.FirstNames, ' ', Staff.Surname) \
+    const NAMESEARCHTEST = "SELECT Staff.FirstNames, Staff.Surname,Staff.UsernameMWS, Staff.UsernameCS, Staff.QRCode_ID, Staff.Email, Staff.TelephoneNumber,JobTitle.JobName,CONCAT(Staff.FirstNames, ' ', Staff.Surname) \
     AS FullName \
     From Staff \
     LEFT JOIN JobTitle on Staff.JobTitle_ID = JobTitle.JobTitle_ID \
@@ -136,6 +140,30 @@ app.get('/board', (req,res)=>{
     INNER JOIN SpaceRef on Staff.QRCode_ID = SpaceRef.QRCode_ID\
     ORDER BY SpaceRef.RoomNumber"
     connection.query(BOARD,(error,results)=>{
+        if(error){
+            return res.send(error)
+        }
+        else{
+            return res.json({
+                data:results
+            })
+        }
+    })
+})
+
+//Board test function
+app.get('/boardtest', (req,res)=>{
+    const BOARD = "SELECT Staff.FirstNames, Staff.Surname, Staff.TelephoneNumber, Staff.Email, Staff.QRCode_ID, SpaceRef.RoomNumber, SpaceRef.Building_ID, SpaceRef.CommonName \
+    FROM Staff \
+    FULL JOIN SpaceRef on Staff.QRCode_ID = SpaceRef.QRCode_ID \
+    ORDER BY SpaceRef.RoomNumber"
+
+    const BOARDTEST = "SELECT SpaceRef.RoomNumber, SpaceRef.CommonName, SpaceRef.Building_ID, SpaceRef.QRCode_ID\
+    FROM SpaceRef\
+    LEFT JOIN Staff on Staff.QRCode_ID = SpaceRef.QRCode_ID \
+    WHERE SpaceRef.CommonName != 'Office' AND SpaceRef.RoomType_ID != '5' AND SpaceRef.RoomType_ID != '6' AND SpaceRef.RoomType_ID != '7'AND SpaceRef.RoomType_ID != '8' AND SpaceRef.RoomType_ID != '9' AND SpaceRef.RoomType_ID != '11'\
+    ORDER BY SpaceRef.RoomNumber"
+    connection.query(BOARDTEST,(error,results)=>{
         if(error){
             return res.send(error)
         }
