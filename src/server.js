@@ -153,7 +153,7 @@ app.get('/board', (req,res)=>{
     })
 })
 
-//Board test function
+//Board test function - GET ROOMS
 app.get('/boardtest', (req,res)=>{
     const BOARD = "SELECT Staff.FirstNames, Staff.Surname, Staff.TelephoneNumber, Staff.Email, Staff.QRCode_ID, SpaceRef.RoomNumber, SpaceRef.Building_ID, SpaceRef.CommonName \
     FROM Staff \

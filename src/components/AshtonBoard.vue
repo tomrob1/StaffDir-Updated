@@ -132,14 +132,14 @@ export default {
 
     mounted:function(){
         //Staff
-        var url = "https://csc.liv.ac.uk:5000/board"
+        var url = "https://www.csc.liv.ac.uk:5000/board"
         axios.get(url)
         .then(response => {
             console.log(response.data.data)
             this.staffInfo = response.data.data
         })
         //Rooms
-        var roomurl = "https://csc.liv.ac.uk:5000/boardtest"
+        var roomurl = "https://www.csc.liv.ac.uk:5000/boardtest"
         axios.get(roomurl)
         .then(response => {
             console.log(response.data.data)
