@@ -119,7 +119,7 @@ export default {
             this.staffInfo = response.data.data
         })
         //Rooms
-        var roomurl = "https://10.50.8.1:5000/boardtest"
+        var roomurl = "https://csc.liv.ac.uk:5000/boardtest"
         axios.get(roomurl)
         .then(response => {
             console.log(response.data.data)

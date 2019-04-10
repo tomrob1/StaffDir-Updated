@@ -8,6 +8,7 @@ var cors = require('cors')
 var mysql = require('mysql')
 var serveStatic = require ('serve-static')
 var https = require ('https')
+var http = require ('http')
 var fs = require('fs')
 var path = require ('path')
 var redirectToHTTPS = require('express-http-to-https').redirectToHTTPS
@@ -46,8 +47,9 @@ connection.connect(function(error){
 })
 
 //Certificate
-var key = fs.readFileSync(__dirname + '/certs/selfsigned.key')
-var cert = fs.readFileSync(__dirname + '/certs/selfsigned.crt')
+var key = fs.readFileSync(__dirname + '/certs/www_server-2k.ukey')
+var cert = fs.readFileSync(__dirname + '/certs/www_servers-2k-2020-Sep.crt')
+var keytest = './www_server-2k.ukey'
 var options = {
     key: key,
     cert: cert
@@ -55,7 +57,7 @@ var options = {
 //var httpServer = http.createServer(app)
 var httpsServer = https.createServer(options,app)
 
-//httpServer.listen(4000)
+//httpServer.listen(5000)
 httpsServer.listen(5000)
 
 //Load correct files when hosted on server

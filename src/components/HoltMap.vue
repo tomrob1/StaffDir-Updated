@@ -86,7 +86,7 @@ export default {
         JQuery("area").click(function() {
             var alt = JQuery(this).attr("alt")
             console.log(alt)
-            var url = 'https://10.50.8.1:5000/map?QRCodeID='+alt
+            var url = 'https://csc.liv.ac.uk:5000/map?QRCodeID='+alt
             console.log(url)
             axios.get(url)
             .then(response => {
