@@ -1,3 +1,3 @@
 module.exports = {
-    publicPath: '/~tar/testv2/'
+    publicPath: '/~tar/test/'
 }

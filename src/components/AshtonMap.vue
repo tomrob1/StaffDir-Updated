@@ -123,23 +123,7 @@ export default {
 
     //Lifecycle hooks
     mounted:function(){
-        var self = this // Link to DOM
-        //When map area clicked, return alt attribute and make AXIOS request
-        JQuery("area").click(function() {
-            var alt = JQuery(this).attr("alt")
-            console.log(alt)
-            var url = 'https://www.csc.liv.ac.uk:5000/map?QRCodeID='+alt
-            console.log(url)
-            axios.get(url)
-            .then(response => {
-                console.log(response.data.data)
-                self.roomInfos = response.data.data
-            })
-            .catch(errror => {
-                console.log(error)
-            })
-
-        });        
+       this.loadMap()
     },
 
     //Methods
@@ -151,6 +135,25 @@ export default {
         },      
         goToMap:function(map){
             this.$router.push(map)
+        },
+        loadMap:function(){
+            var self = this // Link to DOM
+            //When map area clicked, return alt attribute and make AXIOS request
+            JQuery("area").click(function() {
+                var alt = JQuery(this).attr("alt")
+                console.log(alt)
+                var url = 'https://www.csc.liv.ac.uk:5000/map?QRCodeID='+alt
+                console.log(url)
+                axios.get(url)
+                .then(response => {
+                    console.log(response.data.data)
+                    self.roomInfos = response.data.data
+                })
+                .catch(errror => {
+                    console.log(error)
+                })
+
+            }); 
         }
     }
 }

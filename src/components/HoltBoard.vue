@@ -8,67 +8,67 @@
             </ul>
         </div>
             <div class="row">
-                <div class="col-3">
-                    <p>Ground Floor</p>
+                <div class="col-4">
+                    <!--Ground Floor -->
                     <table id="staff">
+                        <th class="floorheader" colspan="3">Ground Floor</th>
                         <tr>
                             <th>Name</th>
-                            <th>Info</th>
                             <th>View Office</th>
                         </tr>
-                        <tr v-for="(staff) in groundFloor">
+                        <tr v-for="(staff) in groundFloor" v-bind:key="staff.Email">
                             <td>{{staff.FirstNames}} {{staff.Surname}}</td>
-                            <td>Room: {{staff.RoomNumber}} <br> {{staff.Email}} <br> 0{{staff.TelephoneNumber}}</td>
+                            <td>Room: {{staff.RoomNumber}} <br> {{staff.Email}} <br> {{staff.TelephoneNumber}}</td>
                             <td><button class="viewoffice" v-on:click="viewOffice(staff.QRCode_ID)">View Office</button></td>
                         </tr>
-                        <tr v-for="(room) in groundFloorRoom">
-                            <td>{{room.CommonName}}</td>
-                            <td>Room: {{room.RoomNumber}}</td>
+                        <th colspan="2">Rooms</th>
+                        <tr v-for="(room) in groundFloorRoom" v-bind:key="room.QRCode_ID">
+                            <td>{{room.CommonName}} <br> Room: {{room.RoomNumber}}</td>
                             <td><button class="viewoffice" v-on:click="viewOffice(room.QRCode_ID)">View</button></td>
                         </tr>
                     </table>
                 </div>
-                <div class="col-3">
-                    <p>First Floor</p>
+                <div class="col-4">
+                    <!--First Floor -->
                     <table id="staff">
+                        <th class="floorheader" colspan="3">First Floor</th>
                         <tr>
                             <th>Name</th>
-                            <th>Info</th>
-                            <th>Office</th>
+                            <th>View Office</th>
                         </tr>
-                        <tr v-for="(staff) in firstFloor">
-                            <td>{{staff.FirstNames}} {{staff.Surname}}</td>
-                            <td>Room: {{staff.RoomNumber}} <br> {{staff.Email}} <br> 0{{staff.TelephoneNumber}} </td>
+                        <tr v-for="(staff) in firstFloor" v-bind:key="staff.Email">
+                            <td v-on:click="opened3 = !opened3">{{staff.FirstNames}} {{staff.Surname}}</td>
+                            <td v-on:click="opened3 = !opened3" v-if="opened2">Room: {{staff.RoomNumber}} <br> {{staff.Email}} <br> {{staff.TelephoneNumber}} </td>
                             <td><button class="viewoffice" v-on:click="viewOffice(staff.QRCode_ID)">View Office</button></td>
                         </tr>
-                        <tr v-for="(room) in firstFloorRoom">
-                            <td>{{room.CommonName}}</td>
-                            <td>Room: {{room.RoomNumber}}</td>
+                        <th colspan="2">Rooms</th>
+                        <tr v-for="(room) in firstFloorRoom" v-bind:key="room.QRCode_ID">
+                            <td>{{room.CommonName}} <br> Room Number: {{room.RoomNumber}} </td>
                             <td><button class="viewoffice" v-on:click="viewOffice(room.QRCode_ID)">View</button></td>
                         </tr>
                     </table>
                 </div>
-                <div class="col-3">
-                    <p>Second Floor</p>
+                <div class="col-4">
+                    <!--Second Floor -->
                     <table id="staff">
+                        <th class="floorheader" colspan="3">Second Floor</th>
                         <tr>
                             <th>Name</th>
-                            <th>Info</th>
-                            <th>Office</th>
+                            <th v-if="opened3">Info</th>
+                            <th>View Office</th>
                         </tr>
-                        <tr v-for="(staff) in secondFloor">
-                            <td>{{staff.FirstNames}} {{staff.Surname}}</td>
-                            <td>Room: {{staff.RoomNumber}} <br> {{staff.Email}} <br> 0{{staff.TelephoneNumber}}</td>
+                        <tr v-for="(staff) in secondFloor" v-bind:key="staff.Email">
+                            <td v-on:click="opened3 = !opened3">{{staff.FirstNames}} {{staff.Surname}} <br> Room Number: {{staff.RoomNumber}}</td>
+                            <td v-on:click="opened3 = !opened3" v-if="opened3">{{staff.Email}} <br> {{staff.TelephoneNumber}}</td>
                             <td><button class="viewoffice" v-on:click="viewOffice(staff.QRCode_ID)">View Office</button></td>
                         </tr>
-                        <tr v-for="(room) in secondFloorRoom">
-                            <td>{{room.CommonName}}</td>
-                            <td>Room: {{room.RoomNumber}}</td>
+                        <th colspan="2">Rooms</th>
+                        <tr v-for="(room) in secondFloorRoom" v-bind:key="room.QRCode_ID">
+                            <td>{{room.CommonName}} <br> Room Number: {{room.RoomNumber}}</td>
                             <td><button class="viewoffice" v-on:click="viewOffice(room.QRCode_ID)">View</button></td>
                         </tr>
                     </table>
                 </div>
-                <div class="col-3"></div>
             </div>
     <div class="LightBox"> 
         <LightBox :images="images" :showLightBox="false" ref="lightbox"></LightBox>
@@ -87,6 +87,12 @@ export default {
         return{
             staffInfo: [],
             roomInfo: [],
+
+            //Toggle Columns
+            opened : false,
+            opened2 : false,
+            opened3 : false,
+
             images:
             [
                 {
@@ -107,24 +113,27 @@ export default {
         },
         goTo:function(path){
             this.$router.push(path)
+        },
+        loadBoard:function(){
+            //Staff
+            var url = "https://www.csc.liv.ac.uk:5000/board"
+            axios.get(url)
+            .then(response => {
+                console.log(response.data.data)
+                this.staffInfo = response.data.data
+            })
+            //Rooms
+            var roomurl = "https://www.csc.liv.ac.uk:5000/boardtest"
+            axios.get(roomurl)
+            .then(response => {
+                console.log(response.data.data)
+                this.roomInfo = response.data.data
+            })
         }   
     },
 
     mounted:function(){
-        //Staff
-        var url = "https://www.csc.liv.ac.uk:5000/board"
-        axios.get(url)
-        .then(response => {
-            console.log(response.data.data)
-            this.staffInfo = response.data.data
-        })
-        //Rooms
-        var roomurl = "https://www.csc.liv.ac.uk:5000/boardtest"
-        axios.get(roomurl)
-        .then(response => {
-            console.log(response.data.data)
-            this.roomInfo = response.data.data
-        })
+        this.loadBoard()
     },
 
     computed: {
@@ -176,47 +185,5 @@ export default {
 </script>
 
 <style>
-.buildingchoice{
-    background-color: lightgreen;
-    width: 10%;
-    margin-top: 10px;
-    margin-left: 5px;
-    margin-right: 5px;
-    border: none;
-    font-size: 14px;
-    color: #666;
-    height: 50px;
-}
 
-.viewoffice{
-    background-color: lightgreen;
-    border: none;
-    width: 100%;
-    border: none;
-    font-size: 10px;
-    color: #666;
-    height: 35px;
-    border: 1px solid grey;
-}
-#staff {
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-  border-collapse: collapse;
-  width:100%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 10px;
-}
-
-#staff td, #staff th {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
-  font-size: 12px;
-}
-
-#staff th {
-  text-align: left;
-  background-color: lightblue;
-  color: white;
-}
 </style>

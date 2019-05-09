@@ -6,84 +6,98 @@
                 <button class="buildingchoice" v-on:click="goTo('AshtonBoard')">Ashton</button>
                 <button class="buildingchoice" v-on:click="goTo('HoltBoard')">George Holt</button>
             </ul>
+            <input type="text" v-model="searchQuery" placeholder="Filter">
         </div>
+            <br>
             <div class="row">
                 <div class="col-3">
-                    <p>Ground Floor</p>
+                    <!--Ground Floor -->
                     <table id="staff">
+                        <th class="floorheader" colspan="3">Ground Floor</th>
                         <tr>
                             <th>Name</th>
-                            <th>Info</th>
+                            <th v-if="opened">Info</th>
                             <th>View Office</th>
                         </tr>
-                        <tr v-for="(staff) in groundFloor">
-                            <td>{{staff.FirstNames}} {{staff.Surname}}</td>
-                            <td>Room: {{staff.RoomNumber}} <br> {{staff.Email}}<br> 0{{staff.TelephoneNumber}}</td>
+                        <!--Staff-->
+                        <tr v-for="(staff) in filteredData(groundFloor)" v-bind:key="staff.Email">
+                            <td v-on:click="opened = !opened">{{staff.FullName}} <br> Room Number: {{staff.RoomNumber}}</td>
+                            <td v-on:click="opened = !opened" v-if="opened">{{staff.Email}}<br> {{staff.TelephoneNumber}}</td>
                             <td><button class="viewoffice" v-on:click="viewOffice(staff.QRCode_ID)">View Office</button></td>
                         </tr>
-                        <tr v-for="(room) in groundFloorRoom">
-                            <td>{{room.CommonName}}</td>
-                            <td>Room: {{room.RoomNumber}}</td>
+                        <!--Rooms-->
+                        <th colspan="2">Rooms</th>
+                        <tr v-for="(room) in groundFloorRoom" v-bind:key="room.QRCode_ID">
+                            <td>{{room.CommonName}} <br>Room Number: {{room.RoomNumber}}</td>
                             <td><button class="viewoffice" v-on:click="viewOffice(room.QRCode_ID)">View</button></td>
                         </tr>
                     </table>
                 </div>
                 <div class="col-3">
-                    <p>First Floor</p>
+                    <!--First Floor -->
                     <table id="staff">
+                        <th class="floorheader" colspan="3">First Floor</th>
                         <tr>
                             <th>Name</th>
-                            <th>Info</th>
-                            <th>Office</th>
+                            <th v-if="opened2">Info</th>
+                            <th>View Office</th>
                         </tr>
-                        <tr v-for="(staff) in firstFloor">
-                            <td>{{staff.FirstNames}} {{staff.Surname}}</td>
-                            <td>Room: {{staff.RoomNumber}} <br> {{staff.Email}} <br> 0{{staff.TelephoneNumber}} </td>
+                        <!--Staff-->
+                        <tr v-for="(staff) in filteredData(firstFloor)" v-bind:key="staff.Email">
+                            <td v-on:click="opened2 = !opened2" >{{staff.FullName}} <br> Room Number:{{staff.RoomNumber}}</td>
+                            <td v-on:click="opened2 = !opened2" v-if="opened2">{{staff.Email}} <br> {{staff.TelephoneNumber}} </td>
                             <td><button class="viewoffice" v-on:click="viewOffice(staff.QRCode_ID)">View Office</button></td>
                         </tr>
-                        <tr v-for="(room) in firstFloorRoom">
-                            <td>{{room.CommonName}}</td>
-                            <td>Room: {{room.RoomNumber}}</td>
+                        <!--Rooms-->
+                        <th colspan="2">Rooms</th>
+                        <tr v-for="(room) in firstFloorRoom" v-bind:key="room.QRCode_ID">
+                            <td>{{room.CommonName}} <br> Room Number: {{room.RoomNumber}}</td>
                             <td><button class="viewoffice" v-on:click="viewOffice(room.QRCode_ID)">View</button></td>
                         </tr>
                     </table>
                 </div>
                 <div class="col-3">
-                    <p>Second Floor</p>
+                    <!--Second Floor -->
                     <table id="staff">
+                        <th class="floorheader" colspan="3">Second Floor</th>
                         <tr>
                             <th>Name</th>
-                            <th>Info</th>
-                            <th>Office</th>
+                            <th v-if="opened3">Info</th>
+                            <th>View Office</th>
                         </tr>
-                        <tr v-for="(staff) in secondFloor">
-                            <td>{{staff.FirstNames}} {{staff.Surname}}</td>
-                            <td>Room: {{staff.RoomNumber}} <br> {{staff.Email}} <br> 0{{staff.TelephoneNumber}}</td>
+                        <!--Staff-->
+                        <tr v-for="(staff) in filteredData(secondFloor)" v-bind:key="staff.Email">
+                            <td v-on:click="opened3 = !opened3">{{staff.FullName}} <br> Room Number:{{staff.RoomNumber}}</td>
+                            <td v-on:click="opened3 = !opened3" v-if="opened3">{{staff.Email}} <br> {{staff.TelephoneNumber}}</td>
                             <td><button class="viewoffice" v-on:click="viewOffice(staff.QRCode_ID)">View Office</button></td>
                         </tr>
-                        <tr v-for="(room) in secondFloorRoom">
-                            <td>{{room.CommonName}}</td>
-                            <td>Room: {{room.RoomNumber}}</td>
+                        <!--Rooms-->
+                        <th colspan="2">Rooms</th>
+                        <tr v-for="(room) in secondFloorRoom" v-bind:key="room.QRCode_ID">
+                            <td>{{room.CommonName}} <br> Room Number: {{room.RoomNumber}} </td>
                             <td><button class="viewoffice" v-on:click="viewOffice(room.QRCode_ID)">View</button></td>
                         </tr>
                     </table>
                 </div>
                 <div class="col-3">
-                    <p>Third Floor</p>
+                    <!--Third Floor -->
                     <table id="staff">
+                        <th class="floorheader" colspan="3">Third Floor</th>
                         <tr>
                             <th>Name</th>
-                            <th>Info</th>
-                            <th>OFfice</th>
+                            <th v-if="opened4">Info</th>
+                            <th>View Office</th>
                         </tr>
-                        <tr v-for="(staff) in thirdFloor">
-                            <td>{{staff.FirstNames}} {{staff.Surname}}</td>
-                            <td>Room: {{staff.RoomNumber}} <br> {{staff.Email}} <br> 0{{staff.TelephoneNumber}}</td>
+                        <!--Staff-->
+                        <tr v-for="(staff) in filteredData(thirdFloor)" v-bind:key="staff.Email">
+                            <td v-on:click="opened4 = !opened4" >{{staff.FullName}} <br> Room Number: {{staff.RoomNumber}}</td>
+                            <td v-on:click="opened4 = !opened4" v-if="opened4">{{staff.Email}} <br> {{staff.TelephoneNumber}}</td>
                             <td><button class="viewoffice" v-on:click="viewOffice(staff.QRCode_ID)">View Office</button></td>
                         </tr>
-                        <tr v-for="(room) in thirdFloorRoom">
-                            <td>{{room.CommonName}}</td>
-                            <td>Room: {{room.RoomNumber}}</td>
+                        <!--Rooms-->
+                        <th colspan="2">Rooms</th>
+                        <tr v-for="(room) in thirdFloorRoom" v-bind:key="room.QRCode_ID">
+                            <td>{{room.CommonName}} <br> Room Number: {{room.RoomNumber}}</td>
                             <td><button class="viewoffice" v-on:click="viewOffice(room.QRCode_ID)">View</button></td>
                         </tr>
                     </table>
@@ -101,12 +115,21 @@ import axios from 'axios'
 import LightBox from 'vue-image-lightbox'
 import { REPL_MODE_STRICT } from 'repl';
 require('vue-image-lightbox/dist/vue-image-lightbox.min.css')
+import $ from 'jquery'
 
 export default {
     data(){
         return{
             staffInfo: [],
             roomInfo : [],
+            searchQuery : '',
+
+            //Toggle Columns
+            opened : false,
+            opened2 : false,
+            opened3 : false,
+            opened4 : false,
+
             images:
             [
                 {
@@ -127,31 +150,50 @@ export default {
         },
         goTo:function(path){
             this.$router.push(path)
-        }        
+        },
+        loadBoard:function(){
+            //Staff
+            var url = "https://www.csc.liv.ac.uk:5000/board"
+            axios.get(url)
+            .then(response => {
+                console.log(response.data.data)
+                this.staffInfo = response.data.data
+            })
+            //Rooms
+            var roomurl = "https://www.csc.liv.ac.uk:5000/boardtest"
+            axios.get(roomurl)
+            .then(response => {
+                console.log(response.data.data)
+                this.roomInfo = response.data.data
+            })
+        }     
     },
 
     mounted:function(){
-        //Staff
-        var url = "https://www.csc.liv.ac.uk:5000/board"
-        axios.get(url)
-        .then(response => {
-            console.log(response.data.data)
-            this.staffInfo = response.data.data
-        })
-        //Rooms
-        var roomurl = "https://www.csc.liv.ac.uk:5000/boardtest"
-        axios.get(roomurl)
-        .then(response => {
-            console.log(response.data.data)
-            this.roomInfo = response.data.data
-        })
+        this.loadBoard()
     },
 
     computed: {
+        //Filter Staff, take array according to floor as parameter
+        filteredData:function() {
+            var vm = this;
+            return function filter(array) {
+                return array.filter(array => {
+                    for (var staff in array) {
+                        if ((array.FullName.toLowerCase()).indexOf(vm.searchQuery) != -1) {
+                            return true
+                        }
+                    }
+                    return false
+                })
+            }
+        },
+
+
         //filter STAFF
         groundFloor() {
             return this.staffInfo.filter(staffInfo => {
-                return staffInfo.RoomNumber.charAt(0) === 'G' & staffInfo.Building_ID == '422'
+                return staffInfo.RoomNumber.charAt(0) == 'G' & staffInfo.Building_ID == '422'
             })
         },
         firstFloor() {
@@ -212,12 +254,21 @@ export default {
     background-color: lightgreen;
     border: none;
     width: 100%;
+    display: block;
+    margin: auto;
     border: none;
     font-size: 10px;
     color: #666;
     height: 35px;
     border: 1px solid grey;
 }
+
+#staff th.floorheader{
+    text-align: center;
+    background-color: lightgreen;
+    color: #666;
+}
+
 #staff {
   font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-collapse: collapse;
@@ -235,8 +286,15 @@ export default {
 }
 
 #staff th {
-  text-align: left;
   background-color: lightblue;
   color: white;
 }
+
+/*Touch Screen TV */
+@media (max-width: 1281px) {
+  #staff tr td{
+    font-size: 10px;
+  }
+}
+
 </style>

@@ -137,7 +137,8 @@ app.get('/map',(req,res)=> {
 
 //Board function
 app.get('/board', (req,res)=>{
-    const BOARD = "SELECT Staff.FirstNames, Staff.Surname, Staff.TelephoneNumber, Staff.Email, SpaceRef.RoomNumber, Staff.QRCode_ID, SpaceRef.Building_ID \
+    const BOARD = "SELECT Staff.FirstNames, Staff.Surname, Staff.TelephoneNumber, Staff.Email, SpaceRef.RoomNumber, Staff.QRCode_ID, SpaceRef.Building_ID, CONCAT(Staff.FirstNames, ' ',Staff.Surname)\
+    AS FullName \
     FROM Staff \
     INNER JOIN SpaceRef on Staff.QRCode_ID = SpaceRef.QRCode_ID\
     ORDER BY SpaceRef.RoomNumber"
@@ -160,7 +161,7 @@ app.get('/boardtest', (req,res)=>{
     FULL JOIN SpaceRef on Staff.QRCode_ID = SpaceRef.QRCode_ID \
     ORDER BY SpaceRef.RoomNumber"
 
-    const BOARDTEST = "SELECT SpaceRef.RoomNumber, SpaceRef.CommonName, SpaceRef.Building_ID, SpaceRef.QRCode_ID\
+    const BOARDTEST = "SELECT DISTINCT SpaceRef.RoomNumber, SpaceRef.CommonName, SpaceRef.Building_ID, SpaceRef.QRCode_ID\
     FROM SpaceRef\
     LEFT JOIN Staff on Staff.QRCode_ID = SpaceRef.QRCode_ID \
     WHERE SpaceRef.CommonName != 'Office' AND SpaceRef.RoomType_ID != '5' AND SpaceRef.RoomType_ID != '6' AND SpaceRef.RoomType_ID != '7'AND SpaceRef.RoomType_ID != '8' AND SpaceRef.RoomType_ID != '9' AND SpaceRef.RoomType_ID != '11'\

@@ -10,7 +10,7 @@
                 <th>Department</th>
                 <th></th>
             </tr>
-            <tr v-for="(result) in results[0]">
+            <tr v-for="(result) in results[0]" v-bind:key="result">
                 <td>{{result.FirstNames}} {{result.Surname}}</td>
                 <td>Email: {{result.Email}}<br>
                 Telephone: 0{{result.TelephoneNumber}}<br>
@@ -93,7 +93,6 @@ export default {
 }
 
 #staff tr:nth-child(even){background-color: #f2f2f2;}
-#staff tr:hover {background-color: #ddd;}
 
 #staff th {
   padding-top: 12px;
@@ -105,6 +104,7 @@ export default {
 .viewoffice{
     background-color: lightgreen;
     width: 100%;
+    display: block;
     border: none;
     font-size: 10px;
     color: #666;

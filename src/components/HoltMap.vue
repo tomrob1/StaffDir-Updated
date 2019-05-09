@@ -42,7 +42,7 @@
                 <area target="" alt="2312022" title="201B" href="#" coords="108,476,11,414" shape="rect">    
                 <area target="" alt="2312021" title="201C" href="#" coords="109,557,10,477" shape="rect">    
                 <area target="" alt="2312008" title="Common Room" href="#" coords="219,5,485,192" shape="rect">    
-                <area target="" v-hammer:tap="onTap()" alt="2312004" title="Paddy/Andy Office" href="#" coords="10,230,134,335" shape="rect">
+                <area target="" alt="2312004" title="Paddy/Andy Office" href="#" coords="10,230,134,335" shape="rect">
                 <area target="" alt="2312006" title="Male WC" href="" coords="60,9,150,117" shape="rect">
                 <area target="" alt="2312005" title="Disabled WC" href="" coords="60,113,151,189" shape="rect">
                 <area target="" alt="2312007" title="Female WC" href="" coords="215,9,157,189" shape="rect">
@@ -81,22 +81,7 @@ export default {
 
     //Lifecycle hooks
     mounted:function(){
-        var self = this // Link to DOM
-        //When map area clicked, return alt attribute and make AXIOS request
-        JQuery("area").click(function() {
-            var alt = JQuery(this).attr("alt")
-            console.log(alt)
-            var url = 'https://www.csc.liv.ac.uk:5000/map?QRCodeID='+alt
-            console.log(url)
-            axios.get(url)
-            .then(response => {
-                console.log(response.data.data)
-                self.roomInfos = response.data.data
-            })
-            .catch(errror => {
-                console.log(error)
-            })
-        });        
+      this.loadMap()
     },
 
     //Methods
@@ -109,8 +94,23 @@ export default {
         goToMap:function(map){
             this.$router.push(map)
         },
-        onTap:function(){
-            
+        loadMap:function(){
+            var self = this // Link to DOM
+            //When map area clicked, return alt attribute and make AXIOS request
+            JQuery("area").click(function() {
+                var alt = JQuery(this).attr("alt")
+                console.log(alt)
+                var url = 'https://www.csc.liv.ac.uk:5000/map?QRCodeID='+alt
+                console.log(url)
+                axios.get(url)
+                .then(response => {
+                    console.log(response.data.data)
+                    self.roomInfos = response.data.data
+                })
+                .catch(errror => {
+                    console.log(error)
+                })
+            });  
         }
     }
 }
