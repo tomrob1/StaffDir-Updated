@@ -62,8 +62,7 @@ export default{
     //Make AXIOS request based off user input
     search(keyboard){        
         console.log(this.input)
-        var url = 'https://www.csc.liv.ac.uk:5000/namesearch?FullName='+this.input
-        console.log(url)                  
+        var url = 'https://www.csc.liv.ac.uk:5000/namesearch?FullName='+this.input            
         axios.get(url)
          .then(response => {
              this.staffs = response.data.data

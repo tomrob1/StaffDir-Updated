@@ -76,7 +76,7 @@ Error Message : chunk-vendors.65bbc9f9.js:69 GET https://10.50.8.1:5000/namesear
 //Name Search function
 app.get('/namesearch', (req,res)=> {
     var FullName = req.query.FullName
-    const NAMESEARCH = "SELECT Staff.FirstNames, Staff.Surname, Staff.UsernameMWS, Staff.UsernameCS, Staff.QRCode_ID, Staff.Email, Staff.TelephoneNumber, JobTitle.JobName, Departments.Department, SpaceRef.RoomNumber, SpaceRef.CommonName, CONCAT(Staff.FirstNames, ' ',Staff.Surname)\
+    const NAMESEARCH = "SELECT Staff.FirstNames, Staff.Surname, Staff.UsernameMWS, Staff.UsernameCS, Staff.QRCode_ID, Staff.Email, Staff.TelephoneNumber, JobTitle.JobName, Departments.Department, SpaceRef.RoomNumber, SpaceRef.QRCode_ID, CONCAT(Staff.FirstNames, ' ',Staff.Surname)\
     AS FullName \
     FROM Staff \
     LEFT JOIN JobTitle on Staff.JobTitle_ID = JobTitle.JobTitle_ID \
