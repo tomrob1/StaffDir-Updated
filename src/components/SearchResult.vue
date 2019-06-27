@@ -13,7 +13,7 @@
             <tr v-for="(result) in results[0]" v-bind:key="result">
                 <td>{{result.FirstNames}} {{result.Surname}}</td>
                 <td>Email: {{result.Email}}<br>
-                Telephone: 0{{result.TelephoneNumber}}<br>
+                Telephone: {{result.TelephoneNumber}}<br>
                 Room: {{result.RoomNumber}}</td>
                 <td>{{result.JobName}}</td>
                 <td>{{result.Department}}</td>
